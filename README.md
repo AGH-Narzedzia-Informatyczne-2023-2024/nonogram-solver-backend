@@ -1,3 +1,4 @@
+# This has been copied from [here](https://github.com/AGH-Narzedzia-Informatyczne-2023-2024/nonogram-solver-webapp)
 # Colorful Nonogram Solver
 
 A software solution for converting images into solvable nonograms, preferably without trial-and-error, as well as solving nonograms.
