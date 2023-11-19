@@ -1,11 +1,11 @@
 from flask import Flask, json
 
-homep = {"id" : "Welcome to colorfull nonogram solver!"}
+homeData = {"id" : "Welcome to colorfull nonogram solver!"}
 api = Flask(__name__)
 
-@api.route('/homep', methods=['GET'])
-def get_homep():
-  return json.dumps(homep)
+@api.route('/', methods=['GET'])
+def get_homeData():
+  return json.dumps(homeData)
 
 if __name__ == '__main__':
     api.run()
