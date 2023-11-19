@@ -1,12 +1,7 @@
 openapi: 3.0.3
 info:
-  title: Swagger Petstore - OpenAPI 3.0
-  version: 1.0.11
-externalDocs:
-  description: Find out more about Swagger
-  url: http://swagger.io
-servers:
-  - url: https://petstore3.swagger.io/api/v3
+  title: Colorfull Nonogram Solver - OpenAPI 3.0
+  version: 0.0.1
 tags:
   - name: display
     description: Basic information on nonograms
@@ -165,7 +160,7 @@ paths:
         '200':
           description: successful operation
         '400':
-          description: Invalid pet value
+          description: invalid id
 components:
   schemas:
     Nonogram:
