@@ -1,0 +1,216 @@
+openapi: 3.0.3
+info:
+  title: Colorfull Nonogram Solver - OpenAPI 3.0
+  version: 0.0.1
+tags:
+  - name: display
+    description: Basic information on nonograms
+paths:
+  /nonograms:
+    put:
+      tags:
+        - display
+      summary: Update an existing nonogram
+      description: Updates an existing nonogram by Id
+      operationId: updateNonogram
+      requestBody:
+        description: Update an existent nonogram in the database
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Nonogram'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Nonogram not found
+        '405':
+          description: Validation exception
+    post:
+      tags:
+        - display
+      summary: Add a new nonogram
+      description: Adds a new nonogram
+      operationId: addNonogram
+      requestBody:
+        description: Add a new nonogram to the database
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Nonogram'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content: 
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: Id of the newly uploaded nonogram
+        '405':
+          description: Invalid input
+    get:
+      tags:
+        - display
+      summary: Returns nonograms with pagination and filtering
+      description: Response will contain nonogram ids
+      parameters:
+        - name: size
+          in: query
+          description: How many nonograms will be displayed per page
+          required: true
+          schema:
+            type: number
+            default: 32
+        - name: page
+          in: query
+          description: Current page displayed on client
+          required: true
+          schema:
+            type: number
+            default: 0
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items: 
+                  type: string
+            application/xml:
+              schema:
+                type: array
+                items:
+                  type: string
+        '400':
+          description: Invalid status value
+  /nonograms/{nonogramId}:
+    get:
+      tags:
+        - display
+      summary: Get nonogram with a given ID
+      description: Returns a single nonogram
+      operationId: getNonogramById
+      parameters:
+        - name: nonogramId
+          in: path
+          description: ID of nonogram to return
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Nonogram'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Nonogram not found
+    post:
+      tags:
+        - display
+      summary: Updates a nonogram in the store with grid data
+      description: ''
+      operationId: updateNonogramWithForm
+      requestBody:
+        description: Update an existent nonogram in the database
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Nonogram'
+        required: true
+      parameters:
+        - name: nonogramId
+          in: path
+          description: ID of nonogram that needs to be updated
+          required: true
+          schema:
+            type: string
+            format: UUIDv4
+      responses:
+        '200':
+          description: successful operation
+        '405':
+          description: Invalid input
+    delete:
+      tags:
+        - display
+      summary: Deletes a nonogram
+      description: delete a nonogram
+      operationId: deleteNonogram
+      parameters:
+        - name: nonogramId
+          in: path
+          description: nonogram id to delete
+          required: true
+          schema:
+            type: string
+            format: UUIDv4
+      responses:
+        '200':
+          description: successful operation
+        '400':
+          description: invalid id
+components:
+  schemas:
+    Nonogram:
+      required:
+        - grid
+        - verticalDescriptors
+        - horizontalDescriptors
+        - colorMap
+        - size
+      type: object
+      properties:
+        id:
+          type: string
+          format: "UUIDv4"
+          example: "21cf2786-4d43-4eab-b685-678c7762d328"
+        size:
+          type: object
+          properties:
+            vertical:
+              minimum: 1
+              type: number
+            horizontal:
+              minimum: 1
+              type: number
+        name:
+          type: string
+          example: "Bird"
+        grid:
+          type: array
+          items:
+            type: array
+            items:
+              type: number
+              minimum: -1
+        verticalDescriptors:
+          type: array
+          items:
+            type: array
+            items:
+              type: number
+              minimum: -1
+        horizontalDescriptors:
+          type: array
+          items:
+            type: array
+            items:
+              type: number
+              minimum: -1
+        colorMap:
+          type: array
+          items: 
+            type: string
+            example: "ffabc2"
